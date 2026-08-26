@@ -4,7 +4,7 @@ An AI-powered resume analyzer that evaluates resume quality, compares resumes wi
 
 ## 🚀 Live Demo
 
-https://ai-resume-analyzer-pfcyhmylf3kulzm6tgwtwr.streamlit.app/
+[AI Resume Analyzer - Live Demo](https://ai-resume-analyzer-pfcyhmylf3kulzm6tgwtwr.streamlit.app/)
 
 ## ✨ Features
 
@@ -37,16 +37,22 @@ AI-Resume-Analyzer/
 ├── requirements.txt
 ├── .gitignore
 │
+├── screenshots/
+│   ├── home.png
+│   └── results.png
+│
 └── utils/
     ├── matcher.py
     ├── pdf_parser.py
     └── resume_analyzer.py
-    ```
-    ## 📸 Screenshots
+```
+
+## 📸 Screenshots
 
 ### 🏠 Home Page
 
 ![Home Page](screenshots/home.png)
 
 ### 📊 Resume Analysis Results
+
 ![Resume Analysis Results](screenshots/results.png)
