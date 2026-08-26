@@ -2,16 +2,34 @@ import fitz
 
 
 def extract_text_from_pdf(uploaded_file):
-    pdf_document = fitz.open(
-        stream=uploaded_file.read(),
-        filetype="pdf"
-    )
+    """
+    Extract text from an uploaded PDF resume.
+    """
 
-    text = ""
+    try:
+        pdf_document = fitz.open(
+            stream=uploaded_file.read(),
+            filetype="pdf"
+        )
 
-    for page in pdf_document:
-        text += page.get_text()
+        text = ""
 
-    pdf_document.close()
+        for page in pdf_document:
+            text += page.get_text()
 
-    return text
+        pdf_document.close()
+
+        text = text.strip()
+
+        if not text:
+            raise ValueError(
+                "No readable text found in the PDF. "
+                "The resume may be scanned or image-based."
+            )
+
+        return text
+
+    except Exception as error:
+        raise ValueError(
+            f"Unable to read the PDF file: {error}"
+        )
