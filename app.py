@@ -42,14 +42,6 @@ st.markdown("""
         margin-bottom: 15px;
     }
 
-    .skill-card {
-        background-color: #262730;
-        border-radius: 10px;
-        padding: 15px;
-        margin: 8px 0;
-        border: 1px solid #3a3a45;
-    }
-
     .match-card {
         background-color: #123524;
         border-radius: 10px;
@@ -159,27 +151,42 @@ if analyze_button:
     else:
 
         # -------------------------------------------------
-        # EXTRACT RESUME TEXT
+        # EXTRACT AND ANALYZE RESUME
         # -------------------------------------------------
 
-        with st.spinner("🔍 Analyzing your resume..."):
+        try:
 
-            resume_text = extract_text_from_pdf(
-                uploaded_file
-            )
+            with st.spinner("🔍 Analyzing your resume..."):
 
-            resume_results = analyze_resume(
-                resume_text
-            )
+                resume_text = extract_text_from_pdf(
+                    uploaded_file
+                )
 
-            quality_score = calculate_resume_quality(
-                resume_results
-            )
+                resume_results = analyze_resume(
+                    resume_text
+                )
 
-            score, matching_skills, missing_skills = calculate_match(
-                resume_text,
-                job_description
+                quality_score = calculate_resume_quality(
+                    resume_results
+                )
+
+                score, matching_skills, missing_skills = calculate_match(
+                    resume_text,
+                    job_description
+                )
+
+        except ValueError as error:
+
+            st.error(f"❌ {error}")
+            st.stop()
+
+        except Exception:
+
+            st.error(
+                "❌ Something went wrong while analyzing your resume. "
+                "Please try another PDF file."
             )
+            st.stop()
 
         st.success(
             "✅ Resume analyzed successfully!"
@@ -210,14 +217,13 @@ if analyze_button:
             )
 
             st.progress(
-                min(int(quality_score), 100)
+                min(max(int(quality_score), 0), 100)
             )
 
             st.markdown(
                 '</div>',
                 unsafe_allow_html=True
             )
-
 
         with col2:
 
@@ -232,7 +238,7 @@ if analyze_button:
             )
 
             st.progress(
-                min(int(score), 100)
+                min(max(int(score), 0), 100)
             )
 
             st.markdown(
