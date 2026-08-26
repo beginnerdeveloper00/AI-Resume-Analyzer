@@ -36,11 +36,15 @@ SKILLS = [
 
 
 def extract_skills(text):
+    """
+    Extract known technical skills from the given text.
+    Matching is case-insensitive.
+    """
     text = text.lower()
     found_skills = []
 
     for skill in SKILLS:
-        pattern = r"\b" + re.escape(skill) + r"\b"
+        pattern = r"(?<!\w)" + re.escape(skill) + r"(?!\w)"
 
         if re.search(pattern, text):
             found_skills.append(skill)
@@ -49,6 +53,10 @@ def extract_skills(text):
 
 
 def calculate_match(resume_text, job_description):
+    """
+    Compare resume skills with job-description skills
+    and calculate the ATS-style skill match score.
+    """
     resume_skills = set(extract_skills(resume_text))
     job_skills = set(extract_skills(job_description))
 
@@ -60,4 +68,8 @@ def calculate_match(resume_text, job_description):
 
     score = (len(matching_skills) / len(job_skills)) * 100
 
-    return round(score, 2), sorted(matching_skills), sorted(missing_skills)
+    return (
+        round(score, 2),
+        sorted(matching_skills),
+        sorted(missing_skills),
+    )
