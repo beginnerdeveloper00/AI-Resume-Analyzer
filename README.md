@@ -41,6 +41,7 @@ AI-Resume-Analyzer/
     ├── matcher.py
     ├── pdf_parser.py
     └── resume_analyzer.py
+    ```
     ## 📸 Screenshots
 
 ### 🏠 Home Page
